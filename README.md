@@ -1,5 +1,3 @@
-# **Mental Rotation of 3D Objects**
-
 A replication experiment of Shepard & Metzler (1971)
 Mental Rotation Task with 3D Rendered Stimuli (Python/Expyriment)
 
