@@ -1,14 +1,9 @@
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-</script>
-
 A replication experiment of Shepard & Metzler (1971)
 Mental Rotation Task with 3D Rendered Stimuli (Python/Expyriment)
 
 ## **Overview**
 
-This repository contains an implementation of a mental rotation experiment inspired by the landmark 1971 study of Roger Shepard and Jacqueline Metzler, which demonstrated that **humans perform mental rotation at a constant angular velocity**. The core empirical finding is a linear relationship between response time (RT) and the angular disparity $\theta$ between two 3D objects.
+This repository contains an implementation of a mental rotation experiment inspired by the landmark 1971 study of Roger Shepard and Jacqueline Metzler, which demonstrated that **humans perform mental rotation at a constant angular velocity**. The core empirical finding is a linear relationship between response time (RT) and the angular disparity θ between two 3D objects.
 
 This experiment reproduces this setup with newly generated 3D objects, randomized trials, real-time logging of responses, and automated analysis/plotting.
 
@@ -16,17 +11,17 @@ This experiment reproduces this setup with newly generated 3D objects, randomize
 ### **What is Mental Rotation?**
 
 Mental rotation refers to the ability to mentally manipulate 2D or 3D stimuli—rotate them, flip them, transform them—in order to compare their identity or spatial configuration.
-The task involves showing: one object (reference), and a second object rotated by some angle $\theta$. Participants must answer "same object" or "different object".
+The task involves showing: one object (reference), and a second object rotated by some angle θ. Participants must answer "same object" or "different object".
 
 ### **Core Result: Linear RT–Angle Relationship**
 
-Shepard & Metzler (1971) reported a strikingly linear relationship: $RT(\theta) \approx \alpha + \beta \theta$
+Shepard & Metzler (1971) reported a strikingly linear relationship: RT(θ) = α + β θ
 
 where:
 - RT = reaction time (ms)
-- $\theta$ = angular disparity (0°–180°)
-- $\alpha$ = baseline reaction time (perception + decision)
-- $\beta$ = mental rotation rate (slope)
+- θ = angular disparity (0°–180°)
+- α = baseline reaction time (perception + decision)
+- β = mental rotation rate (slope)
 
 The crucial interpretation:
 **Humans appear to mentally rotate the object at a constant speed, ~50–60° per second.**
@@ -36,7 +31,7 @@ In other words, the brain simulates physical rotation with an analog internal pr
 ## **Experiment Structure**
 ### **Task Design**
 
-Each trial shows the reference object (always in canonical orientation) on the left and the test object rotated by $\theta \in \{0, 20, 40, ..., 160\}$ degrees on the right.
+Each trial shows the reference object (always in canonical orientation) on the left and the test object rotated by θ ∈ {0, 20, 40, ..., 160} degrees on the right.
 
 ![Description](assets/pairs.png)
 
@@ -64,7 +59,7 @@ Each row in the exported CSV contains:
 
 | Column          | Description                    |
 |-----------------|--------------------------------|
-| **angle**       | Angular disparity $\theta$ (degrees)  |
+| **angle**       | Angular disparity θ (degrees)  |
 | **same**        | 1 if same object, 0 otherwise  |
 | **repetition**  | Trial index                    |
 | **response_same** | Participant answer (1/0)    |
@@ -82,7 +77,7 @@ The analysis script performs:
 
 - Aggregating RTs per angle
 
-- Computing mean RT($\theta$)
+- Computing mean RT(θ)
 
 - Linear regression
 
@@ -119,7 +114,7 @@ This produces a timestamped CSV + a regression plot in ```results/```.
 
 ## **Scientific Interpretation**
 
-If your regression line is linear with a reasonably high $R^2$ (typically > 0.7), you have successfully reproduced the psychological phenomenon: **RT grows linearly with $\theta$ (at least for “same” trials)**
+If your regression line is linear with a reasonably high R² (typically > 0.7), you have successfully reproduced the psychological phenomenon: **RT grows linearly with θ (at least for “same” trials)**
 
 ## **References**
 
