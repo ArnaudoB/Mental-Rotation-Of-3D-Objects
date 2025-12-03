@@ -17,12 +17,10 @@ The task involves showing: one object (reference), and a second object rotated b
 
 ### **Core Result: Linear RT–Angle Relationship**
 
-Shepard & Metzler (1971) reported a strikingly linear relationship:
-$$
-\text{RT}(\theta) \approx \alpha + \beta \theta,
-$$
+Shepard & Metzler (1971) reported a strikingly linear relationship: $RT(\theta) \approx \alpha + \beta \theta$
 
 where:
+- RT = reaction time (ms)
 - $\theta$ = angular disparity (0°–180°)
 - $\alpha$ = baseline reaction time (perception + decision)
 - $\beta$ = mental rotation rate (slope)
