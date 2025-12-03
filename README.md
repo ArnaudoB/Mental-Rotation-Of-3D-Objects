@@ -118,7 +118,7 @@ This produces a timestamped CSV + a regression plot in ```results/```.
 
 ## **Scientific Interpretation**
 
-If your regression line is linear with a reasonably high $R^2$ (typically > 0.7), you have successfully reproduced the psychological phenomenon: **RT grows linearly with $\theta$ for “same” trials** (for “different” trials, RTs are often steeper or shifted upward)
+If your regression line is linear with a reasonably high $R^2$ (typically > 0.7), you have successfully reproduced the psychological phenomenon: **RT grows linearly with $\theta$ (at least for “same” trials)**
 
 ## **References**
 
