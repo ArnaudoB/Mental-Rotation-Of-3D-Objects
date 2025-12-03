@@ -72,55 +72,91 @@ def analyze_and_plot(results):
 
     data = np.array(results, dtype=float)
 
-    unique_angles = np.unique(data[:, 0])
-    mean_rt = []
-    acc = []
+    # same_flag = 1 -> "same" trials, same_flag = 0 -> "different" trials
+    def compute_stats_and_regression(sub_data, label):
+        unique_angles = np.unique(sub_data[:, 0])
+        mean_rt = []
+        acc = []
 
-    for angle in unique_angles:
-        mask_angle = data[:, 0] == angle
-        subset = data[mask_angle]
+        for angle in unique_angles:
+            mask_angle = sub_data[:, 0] == angle
+            subset = sub_data[mask_angle]
 
-        acc.append(np.mean(subset[:, 4]))
+            # accuracy at this angle
+            acc.append(np.mean(subset[:, 4]))
 
-        correct_subset = subset[subset[:, 4] == 1]
-        if len(correct_subset) > 0:
-            mean_rt.append(np.mean(correct_subset[:, 5]))
+            # mean RT on correct trials only
+            correct_subset = subset[subset[:, 4] == 1]
+            if len(correct_subset) > 0:
+                mean_rt.append(np.mean(correct_subset[:, 5]))
+            else:
+                mean_rt.append(np.nan)
+
+        unique_angles = unique_angles.astype(float)
+        mean_rt = np.array(mean_rt, dtype=float)
+        acc = np.array(acc, dtype=float)
+
+        mask_valid = ~np.isnan(mean_rt)
+        X = unique_angles[mask_valid]
+        Y = mean_rt[mask_valid]
+
+        if len(X) >= 2:
+            a, b = np.polyfit(X, Y, deg=1)
+            Y_pred = a * X + b
+
+            ss_res = np.sum((Y - Y_pred) ** 2)
+            ss_tot = np.sum((Y - np.mean(Y)) ** 2)
+            r2 = 1.0 - ss_res / ss_tot if ss_tot > 0 else np.nan
+
+            print(f"\n===== Linear Regression RT(theta) — {label} trials =====")
+            print(f"RT = {a:.3f} * angle + {b:.3f}")
+            print(f"Slope a       = {a:.3f} ms/degree")
+            print(f"Intercept b   = {b:.3f} ms")
+            print(f"R²            = {r2:.4f}")
+            print("==============================================\n")
         else:
-            mean_rt.append(np.nan)
+            a, b, r2, Y_pred = np.nan, np.nan, np.nan, None
+            print(f"Not enough data points for linear regression ({label} trials).")
 
-    unique_angles = unique_angles.astype(float)
-    mean_rt = np.array(mean_rt, dtype=float)
-    acc = np.array(acc, dtype=float)
+        return {
+            "angles": unique_angles,
+            "mean_rt": mean_rt,
+            "acc": acc,
+            "X": X,
+            "Y_pred": Y_pred,
+            "a": a,
+            "b": b,
+            "r2": r2,
+            "label": label,
+        }
 
-    mask_valid = ~np.isnan(mean_rt)
-    X = unique_angles[mask_valid]
-    Y = mean_rt[mask_valid]
+    data_same = data[data[:, 1] == 1]
+    data_diff = data[data[:, 1] == 0]
 
-    if len(X) >= 2:
-        a, b = np.polyfit(X, Y, deg=1)
-        Y_pred = a * X + b
-
-        ss_res = np.sum((Y - Y_pred) ** 2)
-        ss_tot = np.sum((Y - np.mean(Y)) ** 2)
-        r2 = 1.0 - ss_res / ss_tot if ss_tot > 0 else np.nan
-
-        print("\n===== Linear Regression RT(theta) =====")
-        print(f"RT = {a:.3f} * angle + {b:.3f}")
-        print(f"Slope a       = {a:.3f} ms/degree")
-        print(f"Intercept b   = {b:.3f} ms")
-        print(f"R²            = {r2:.4f}")
-        print("=======================================\n")
-    else:
-        a, b, r2, Y_pred = np.nan, np.nan, np.nan, None
-        print("Not enough data points for linear regression.")
+    stats_same = compute_stats_and_regression(data_same, label="same")
+    stats_diff = compute_stats_and_regression(data_diff, label="different")
 
     _, axes = plt.subplots(1, 2, figsize=(10, 4))
 
     # RT vs angle
-    axes[0].plot(unique_angles, mean_rt, marker="o", label="Mean RT")
+    for stats, style in [(stats_same, "o-"), (stats_diff, "s-")]:
+        angles = stats["angles"]
+        mean_rt = stats["mean_rt"]
+        label = stats["label"]
 
-    if Y_pred is not None:
-        axes[0].plot(X, Y_pred, "--", label=f"Regression (slope={a:.1f} ms/°, R² = {r2:.3f})")
+        axes[0].plot(angles, mean_rt, style, label=f"{label} (mean RT)")
+
+        if stats["Y_pred"] is not None:
+            X = stats["X"]
+            Y_pred = stats["Y_pred"]
+            a = stats["a"]
+            r2 = stats["r2"]
+            axes[0].plot(
+                X,
+                Y_pred,
+                "--",
+                label=f"{label} regression (slope={a:.1f} ms/°, R²={r2:.3f})",
+            )
 
     axes[0].set_xlabel("Rotation angle (degrees)")
     axes[0].set_ylabel("Mean RT (ms)")
@@ -128,14 +164,21 @@ def analyze_and_plot(results):
     axes[0].legend()
 
     # Accuracy vs angle
-    axes[1].plot(unique_angles, acc, marker="o")
+    for stats, style in [(stats_same, "o-"), (stats_diff, "s-")]:
+        angles = stats["angles"]
+        acc = stats["acc"]
+        label = stats["label"]
+        axes[1].plot(angles, acc, style, label=f"{label}")
+
     axes[1].set_xlabel("Rotation angle (degrees)")
     axes[1].set_ylabel("Accuracy")
     axes[1].set_ylim(0, 1.05)
     axes[1].set_title("Accuracy vs rotation angle")
+    axes[1].legend()
 
     plt.tight_layout()
     plt.savefig(fig_filename, dpi=150)
+
 
 
 def run_experiment(exp):
