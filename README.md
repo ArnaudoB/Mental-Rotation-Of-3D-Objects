@@ -95,7 +95,7 @@ The analysis script performs:
 
 1. **Clone repository**
 ```bash
-git clone https://github.com/yourusername/Mental-Rotation-Of-3D-Objects.git
+git clone https://github.com/ArnaudoB/Mental-Rotation-Of-3D-Objects.git
 cd Mental-Rotation-Of-3D-Objects
 ```
 
