@@ -34,7 +34,8 @@ In other words, the brain simulates physical rotation with an analog internal pr
 Each trial shows the reference object (always in canonical orientation) on the left and the test object rotated by θ ∈ {0, 20, 40, ..., 160} degrees on the right.
 
 ![Description](assets/pairs.png)
-*Example of a stimulus pair of two same objects. The objects were made using GeoGebra.*
+
+*Example of objects (made using GeoGebra).*
 
 Trials are either same (identical object, just rotated), or different (mirror or shape variant)
 
@@ -118,7 +119,7 @@ This produces a timestamped CSV + a regression plot in ```results/```.
 If your regression line is linear with a reasonably high R² (typically > 0.7), you have successfully reproduced the psychological phenomenon: **RT grows linearly with θ (at least for “same” trials)**
 
 ![Description](assets/RTs.png)
-*Excpected results: RTs increase linearly with angular disparity θ.*
+*Expected results: RTs increase linearly with angular disparity θ.*
 
 ## **References**
 
