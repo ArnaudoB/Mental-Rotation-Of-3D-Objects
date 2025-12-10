@@ -1,9 +1,9 @@
-A replication experiment of Shepard & Metzler (1971)
+A replication experiment of [Shepard & Metzler (1971)](https://facultypsy.hope.edu/psychlabs/exp/rotate/readings/ShepardMetzler_1971.pdf)
 Mental Rotation Task with 3D Rendered Stimuli (Python/Expyriment)
 
 ## **Overview**
 
-This repository contains an implementation of a mental rotation experiment inspired by the landmark 1971 study of Roger Shepard and Jacqueline Metzler, which demonstrated that **humans perform mental rotation at a constant angular velocity**. The core empirical finding is a linear relationship between response time (RT) and the angular disparity θ between two 3D objects.
+This repository contains an implementation of a mental rotation experiment inspired by the [landmark 1971 study](https://facultypsy.hope.edu/psychlabs/exp/rotate/readings/ShepardMetzler_1971.pdf) of Roger Shepard and Jacqueline Metzler, which demonstrated that **humans perform mental rotation at a constant angular velocity**. The core empirical finding is a linear relationship between response time (RT) and the angular disparity θ between two 3D objects.
 
 This experiment reproduces this setup with newly generated 3D objects, randomized trials, real-time logging of responses, and automated analysis/plotting.
 
